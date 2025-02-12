@@ -1,0 +1,40 @@
+* {
+    box-sizing: border-box;
+    background-color: whitesmoke;
+}
+
+body * {
+    font-family: 'Space Mono', monospace;
+}
+
+#main-title {
+    text-align: center;
+}
+
+h2.table-title {
+    text-align: center;
+}
+
+table.table-sheet {
+    width: 1000px;
+    margin: 0 auto;
+    border: 2px solid black;
+}
+
+table.table-sheet th  {
+    border: 1px solid black;
+    padding: 10px;
+    background-color: darkslategray;
+    color: #fff;
+}
+
+table.table-sheet td {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+span.tag-snippet {
+    background-color: bisque;
+    border: 1px solid black;
+    padding: 2px;
+}
