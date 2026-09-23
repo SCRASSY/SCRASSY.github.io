@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cayden Tong — Game Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #1a191d;
+    --surface: #201f24;
+    --text: #edeae4;
+    --text-dim: #96918a;
+    --accent: #ff6b35;
+    --accent-2: #4ecdc4;
+    --accent-3: #e8c547;
+    --accent-4: #9b8afb;
+    --ok: #6bd68a;
+    --line: #2c2a2e;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-padding-top: env(safe-area-inset-top, 0px);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bg);
+    background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.22) 1px, transparent 0);
+    background-size: 26px 26px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+  }
+
+  ::selection { background: var(--accent); color: #131215; }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 60px 20px 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid rgba(255, 107, 53, 0.16);
+    border-radius: 10px;
+    padding: 48px 40px;
+  }
+
+  header.hero {
+    padding-bottom: 10px;
+  }
+
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    margin: 0 0 22px;
+  }
+
+  .kicker .prompt { color: var(--text-dim); margin-right: 8px; }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .status .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 0 0 rgba(107, 214, 138, 0.5);
+    animation: pulse 2.2s ease-out infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(107, 214, 138, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(107, 214, 138, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(107, 214, 138, 0); }
+  }
+
+  h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: clamp(34px, 6vw, 52px);
+    line-height: 1.15;
+    margin: 0 0 20px;
+    max-width: 11ch;
+  }
+
+  .hero p.lede {
+    font-size: 18px;
+    color: var(--text-dim);
+    max-width: 46ch;
+    margin: 0 0 34px;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+  }
+
+  .hero-links a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 3px;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .hero-links a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  section { padding: 0; }
+
+  .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin: 0 0 28px;
+  }
+
+  .label .prompt { color: var(--accent-2); margin-right: 8px; }
+
+  .about .gutter {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 16px 18px;
+  }
+
+  .about .gutter p {
+    grid-column: 2;
+  }
+
+  .about .ln {
+    grid-column: 1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    padding-top: 2px;
+    text-align: right;
+  }
+
+  .about p {
+    font-size: 17px;
+    max-width: 62ch;
+    color: var(--text);
+  }
+
+  .about p + p { margin-top: 16px; }
+
+  .skills-list {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .skills-list li {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    border-radius: 3px;
+  }
+
+  .skills-list li.lang { color: var(--accent-3); border-color: rgba(232, 197, 71, 0.25); }
+  .skills-list li.engine { color: var(--accent-2); border-color: rgba(78, 205, 196, 0.25); }
+  .skills-list li.tool { color: var(--accent-4); border-color: rgba(155, 138, 251, 0.25); }
+
+  .project-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project {
+    padding: 30px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .project:first-of-type { border-top: none; padding-top: 0; }
+
+  .thumb {
+    aspect-ratio: 16 / 9;
+    margin: 0 0 18px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--bg);
+    border: 1px solid var(--line);
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .thumb.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: dashed;
+  }
+
+  .thumb.placeholder span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .project .project-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0 0 8px;
+  }
+
+  .project .index {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent-3);
+    font-size: 14px;
+  }
+
+  .project h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .project .desc {
+    color: var(--text-dim);
+    font-size: 15px;
+    max-width: 54ch;
+    margin: 0 0 14px;
+  }
+
+  .project .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    align-items: center;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent-2);
+  }
+
+  .tag.lang { color: var(--accent-3); }
+  .tag.team { color: var(--text-dim); }
+
+  .tag::after { content: '·'; margin-left: 10px; color: var(--line); }
+  .tag:last-child::after { content: none; }
+
+  .project .link {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--text);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .project .link:hover { color: var(--accent); border-color: var(--accent); }
+
+  footer {
+    padding: 0;
+  }
+
+  footer .label { margin-bottom: 18px; }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    margin-bottom: 40px;
+  }
+
+  .contact-row a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 3px;
+  }
+
+  .contact-row a:hover { color: var(--accent); border-color: var(--accent); }
+
+  footer .fine {
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  @media (min-width: 860px) {
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .project {
+      border-top: none;
+      padding: 0;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project .desc { max-width: none; }
+    .project .link { margin-left: 0; }
+    .project .meta { margin-top: auto; }
+  }
+
+  @media (max-width: 520px) {
+    .card { padding: 32px 24px; }
+    .about .gutter { grid-template-columns: 1fr; }
+    .about .ln { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .status .dot { animation: none; }
+  }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  body.custom-cursor,
+  body.custom-cursor a,
+  body.custom-cursor .project,
+  body.custom-cursor .thumb {
+    cursor: none;
+  }
+
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+  }
+
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+  }
+
+  .cursor-ring {
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(255, 107, 53, 0.45);
+    transition: width 0.15s ease, height 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .cursor-ring.is-active {
+    width: 46px;
+    height: 46px;
+    border-color: var(--accent-2);
+    background: rgba(78, 205, 196, 0.08);
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero card">
+    <p class="kicker"><span class="prompt">&gt;</span>Game Developer &amp; Programmer</p>
+    <h1>Cayden Tong</h1>
+    <p class="lede">I build small, sharp game systems — from combat feel to procedural tools — and I've just graduated with a degree in Game Development / Programming.</p>
+    <div class="hero-links">
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <section class="about card" id="about">
+    <p class="label"><span class="prompt">&gt;</span>About</p>
+    <div class="gutter">
+      <span class="ln">01</span>
+      <p>I'm a Game Development / Programming graduate from CG Spectrum who likes working close to the systems that make a game feel good — movement, combat readability, and the small tools that keep a team out of the weeds.</p>
+      <span class="ln">02</span>
+      <p>C++ is my primary language, mostly inside Unreal Engine 5, with a working level of C# in Unity. Currently looking for graduate or junior roles in gameplay or tools programming.</p>
+    </div>
+    <ul class="skills-list">
+      <li class="lang">C++</li>
+      <li class="engine">Unreal Engine 5</li>
+      <li class="lang">C# (basic)</li>
+      <li class="engine">Unity</li>
+      <li class="tool">Git</li>
+      <li class="tool">Gameplay Systems</li>
+      <li class="tool">Shaders (HLSL)</li>
+      <li class="tool">Tools &amp; Editor Scripting</li>
+    </ul>
+  </section>
+
+  <section id="projects" class="card">
+    <p class="label"><span class="prompt">&gt;</span>Selected projects</p>
+
+    <!-- To add another project, copy one .project block (from <div class="project"> to </div>)
+         and update the index number, heading, description, tags, and link.
+
+         To add a thumbnail image, replace the placeholder div:
+           <div class="thumb placeholder"><span>Add screenshot / gif</span></div>
+         with:
+           <div class="thumb"><img src="images/your-image.jpg" alt="Project Name screenshot"></div>
+         (create an "images" folder next to this file and put your image in it) -->
+
+    <div class="project-grid">
+
+    <div class="project">
+      <div class="thumb placeholder"><span>Add screenshot / gif</span></div>
+      <div class="project-head"><span class="index">01</span><h3>Project Name</h3></div>
+      <p class="desc">One or two sentences on what the project is and what you built — the mechanic, system, or tool you were responsible for, and who you built it with.</p>
+      <div class="meta">
+        <span class="tag">Engine</span>
+        <span class="tag lang">Language</span>
+        <span class="tag team">Solo / Team of N</span>
+        <a class="link" href="project-template.html">View project →</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="thumb placeholder"><span>Add screenshot / gif</span></div>
+      <div class="project-head"><span class="index">02</span><h3>Project Name</h3></div>
+      <p class="desc">One or two sentences on what the project is and what you built — the mechanic, system, or tool you were responsible for, and who you built it with.</p>
+      <div class="meta">
+        <span class="tag">Engine</span>
+        <span class="tag lang">Language</span>
+        <span class="tag team">Solo / Team of N</span>
+        <a class="link" href="project-template.html">View project →</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="thumb placeholder"><span>Add screenshot / gif</span></div>
+      <div class="project-head"><span class="index">03</span><h3>Project Name</h3></div>
+      <p class="desc">One or two sentences on what the project is and what you built — the mechanic, system, or tool you were responsible for, and who you built it with.</p>
+      <div class="meta">
+        <span class="tag">Engine</span>
+        <span class="tag lang">Language</span>
+        <span class="tag team">Solo / Team of N</span>
+        <a class="link" href="project-template.html">View project →</a>
+      </div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <footer id="contact" class="card">
+    <p class="label"><span class="prompt">&gt;</span>Get in touch</p>
+    <div class="contact-row">
+      <a href="mailto:cayden.tong@email.com">cayden.tong@email.com</a>
+      <a href="#">itch.io</a>
+      <a href="#">GitHub</a>
+      <a href="#">LinkedIn</a>
+    </div>
+    <p class="fine">Based in Brisbane, Australia — open to relocation.</p>
+  </footer>
+
+</div>
+
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+
+<script>
+  (function () {
+    var canHover = window.matchMedia('(any-pointer: fine)').matches || !('ontouchstart' in window);
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!canHover) return;
+
+    document.body.classList.add('custom-cursor');
+
+    var dot = document.querySelector('.cursor-dot');
+    var ring = document.querySelector('.cursor-ring');
+
+    var mouseX = 0, mouseY = 0;
+    var ringX = 0, ringY = 0;
+
+    window.addEventListener('mousemove', function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%)';
+    });
+
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%)';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    var interactiveSelector = 'a, .project, .thumb, .skills-list li';
+    document.querySelectorAll(interactiveSelector).forEach(function (el) {
+      el.addEventListener('mouseenter', function () { ring.classList.add('is-active'); });
+      el.addEventListener('mouseleave', function () { ring.classList.remove('is-active'); });
+    });
+
+    document.body.addEventListener('mouseleave', function () {
+      dot.style.opacity = '0';
+      ring.style.opacity = '0';
+    });
+    document.body.addEventListener('mouseenter', function () {
+      dot.style.opacity = '1';
+      ring.style.opacity = '1';
+    });
+  })();
+
+  console.log('%c> whoami', 'font-family: monospace; color: #4ecdc4;');
+  console.log('%cCayden Tong — Game Developer & Programmer', 'font-family: monospace; color: #ff6b35;');
+  console.log('%cLooking for the code? Poking around a portfolio site \u2014 I like the curiosity. Let\'s talk: cayden.tong@email.com', 'font-family: monospace; color: #96918a;');
+</script>
+
+</body>
+</html>
